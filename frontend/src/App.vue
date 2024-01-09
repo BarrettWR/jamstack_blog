@@ -24,13 +24,13 @@ import Footer from './components/Footer.vue'
 // });
 
 
+
 </script>
 
 <template>
   <div class="flex flex-col items-center mr-auto ml-auto">
     <Nav/>
-
-    <Home/>
+    <router-view></router-view>
 
     <Footer/>
   </div>
