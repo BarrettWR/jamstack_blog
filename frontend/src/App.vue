@@ -1,5 +1,9 @@
 <script setup>
 import Nav from './components/Nav.vue'
+import Home from './components/Home.vue'
+import Footer from './components/Footer.vue'
+
+
 // import { ref, onMounted } from 'vue';
 
 // const comment = ref(null);
@@ -23,9 +27,14 @@ import Nav from './components/Nav.vue'
 </script>
 
 <template>
-  <Nav/>
+  <div class="flex flex-col items-center mr-auto ml-auto">
+    <Nav/>
 
-  
+    <Home/>
+
+    <Footer/>
+  </div>
+
   
 
 </template>
