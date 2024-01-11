@@ -3,6 +3,7 @@ import './style.css'
 import App from './App.vue'
 import Posts from './components/Posts.vue'
 import Home from './components/Home.vue'
+import SinglePost from './components/SinglePost.vue'
 
 
 import { createRouter, createWebHashHistory } from 'vue-router'
@@ -11,6 +12,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 const routes = [
     { path: '/posts', component: Posts },
     { path: '/', component: Home },
+    { path: '/post/:id', component: SinglePost }
 ]
 
 const router = createRouter({

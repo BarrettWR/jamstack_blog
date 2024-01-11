@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onBeforeMount } from 'vue';
+import { ref, onMounted, onBeforeMount, computed } from 'vue';
 
 const posts = ref(null);
 
@@ -21,20 +21,10 @@ onBeforeMount(async () => {
 
 
 <template>
-    <div class="flex flex-wrap grow self-start backdrop-brightness-[1.05] p-5 min-h-[80vh]">
-      <div class="flex flex-wrap grow gap-5 h-min">
-        <div class="flex flex-col p-5 w-[450px]  rounded-md cursor-pointer box shadow" v-for="post in posts">
-          <router-link :to="`/post/${post._id}`">
-            <div class="textbox">
-                <div class="flex flex-row items-center gap-5">
-                    <h1 class="text-2xl mb-1">{{ post?.title }}</h1>
-                    <small class=" opacity-80"> {{  new Date(post.time).toLocaleDateString('en-us', { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' })  }} </small>
-                </div>
-                <p class=" overflow-hidden max-h-[115px]">{{ post?.text }}</p>
-            </div>
-          </router-link>
+    <div class="max-w-[300px] ">
+        <div v-for="post in posts">
+
         </div>
-      </div>
     </div>
 </template>
 
