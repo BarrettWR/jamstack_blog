@@ -1,11 +1,16 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import Comments from './Comments.vue' ;
 
-const post = ref(null);
+const post = ref({
+  type: Object, // or the type of the data you're passing
+  required: false, // or true, if the prop is required
+  default: () => ({}) // or another default value
+});
+
 const id = ref(null);
 const route = useRoute();
-
 
 const getPost = async (url) => {
   try {
@@ -22,11 +27,15 @@ onMounted(async () => {
     post.value = await getPost(`http://localhost:3000/api/post/${id.value}`);
 });
 
+const props = defineProps({
+  post: Object
+})
+
 </script>
 
 
 <template>
-    <div class="flex flex-wrap grow self-start gap-5 backdrop-brightness-[1.05] p-5">
+    <div class="flex flex-wrap justify-center grow self-start gap-5 backdrop-brightness-[1.05] p-5 min-h-[80vh]">
         
         <div class="p-20">
           <h1 class="text-3xl mb-5">{{ post?.title }}</h1>
@@ -34,8 +43,11 @@ onMounted(async () => {
             {{ post?.text }}
           </p> 
         </div>
+        <Comments :props = "post"/>
         <!-- {{ $route.params.id }} -->
     </div>
+
+
 </template>
 
 <style>

@@ -4,7 +4,7 @@
 </script>
 
 <template>
-    <div class=" flex flex-col grow w-[50svw] backdrop-brightness-[1.05] p-10 bg-gray-800">
+    <div class=" flex flex-col w-[50svw] backdrop-brightness-[1.05] p-10 bg-gray-800">
         <div class="flex flex-wrap font-monospace justify-between text-gray-200">
             <div class="text-lg flex flex-col">
                 <div> My Work </div>

@@ -1,6 +1,5 @@
 <script setup>
 import Nav from './components/Nav.vue'
-import Home from './components/Home.vue'
 import Footer from './components/Footer.vue'
 
 
@@ -11,6 +10,7 @@ import Footer from './components/Footer.vue'
 <template>
   <div class="flex flex-col items-center mr-auto ml-auto w-[50svw]">
     <Nav/>
+
     <router-view></router-view>
 
     <Footer/>

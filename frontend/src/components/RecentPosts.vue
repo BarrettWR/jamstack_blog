@@ -17,13 +17,29 @@ onBeforeMount(async () => {
   posts.value = await getPosts('http://localhost:3000/api/posts');
 });
 
+const recentPosts = computed(() => {
+  let recents = [];
+  if (posts.value) {
+    for (let i = 0; i < Math.min(3, posts.value.length); i++) {
+      recents.push(posts.value[i]);
+    }
+  }
+  return recents;
+});
+
 </script>
 
 
 <template>
-    <div class="max-w-[300px] ">
-        <div v-for="post in posts">
-
+    <div class="flex flex-col gap-3 max-w-[300px] bg-white p-5 ml-2 rounded-md">
+        <span class="text-xl"> Recent Posts</span>
+        <div class="" v-for="post in recentPosts">
+          <router-link :to="`/post/${post._id}`">
+            <div class="box shadow">
+              <span class="text-lg">{{ post?.title }}</span>
+              <p class="text-gray-700 whitespace-nowrap overflow-hidden text-ellipsis"> {{ post.text }}</p>
+            </div>
+          </router-link>
         </div>
     </div>
 </template>

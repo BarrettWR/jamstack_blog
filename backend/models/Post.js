@@ -8,6 +8,7 @@ const PostSchema = new Schema({
   text: { type: String, required: true, minLength: 1, maxLength: 5000 },
   time: { type: Date, required: true },
   published: { type: Boolean, required: true },
+  comments: [{ type: Schema.ObjectId, ref: "Comment" }]
 });
 
 // Virtual for Comments URL
