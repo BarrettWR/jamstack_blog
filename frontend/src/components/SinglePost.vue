@@ -3,11 +3,7 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import Comments from './Comments.vue' ;
 
-const post = ref({
-  type: Object, // or the type of the data you're passing
-  required: false, // or true, if the prop is required
-  default: () => ({}) // or another default value
-});
+const post = ref();
 
 const id = ref(null);
 const route = useRoute();
@@ -27,10 +23,6 @@ onMounted(async () => {
     post.value = await getPost(`http://localhost:3000/api/post/${id.value}`);
 });
 
-const props = defineProps({
-  post: Object
-})
-
 </script>
 
 
@@ -43,7 +35,7 @@ const props = defineProps({
             {{ post?.text }}
           </p> 
         </div>
-        <Comments :props = "post"/>
+        <Comments :comments = "post?.comments"/>
         <!-- {{ $route.params.id }} -->
     </div>
 
