@@ -7,7 +7,9 @@ router.get('/api/posts', controller.api_posts_get);
 
 router.get('/api/post/:id', controller.api_singlePost_get);
 
-// router.get('/api/post/:id/comments', controller.api_comments_get);
+router.get('/api/comments/', controller.api_comments_get);
+
+// router.get('/api/comments/:id', controller.api_singleComment_get);
 
 
 

@@ -33,17 +33,23 @@ exports.api_singlePost_get = asyncHandler(async (req, res, next) => {
     res.json(post);
 })
 
-// exports.api_comments_get = asyncHandler(async (req, res, next) => {
-//     //     let comment= new Comment({
-//     //         username: "Greg",
-//     //         message: "lorem ipsum dolor sit amet",
-//     //         time: new Date(),
-//     //         postID: '659779fd85e0eb6e0b951b7f'
-//     //     })
+exports.api_comments_get = asyncHandler(async (req, res, next) => {
+    //     let comment= new Comment({
+    //         username: "Greg",
+    //         message: "lorem ipsum dolor sit amet",
+    //         time: new Date(),
+    //         postID: '659779fd85e0eb6e0b951b7f'
+    //     })
 
-//     // comment.save();
+    // comment.save();
 
 
-//     let comments = await Comment.find();
-//     res.json(comments);
+    let comments = await Comment.find();
+    res.json(comments);
+})
+
+
+// exports.api_singleComment_get = asyncHandler(async (req, res, next) => {
+//     let comment = await Comment.findOne({_id: req.params.id});
+//     res.json(comment);
 // })

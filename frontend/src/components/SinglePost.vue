@@ -35,7 +35,7 @@ onMounted(async () => {
             {{ post?.text }}
           </p> 
         </div>
-        <Comments :comments = "post?.comments"/>
+        <Comments :postID = "post?._id"/>
         <!-- {{ $route.params.id }} -->
     </div>
 
