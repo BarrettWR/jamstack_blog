@@ -6,7 +6,10 @@ var logger = require('morgan');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
 const cors = require('cors');
-
+const passport = require("passport");
+var JwtStrategy = require('passport-jwt').Strategy;
+var ExtractJwt = require('passport-jwt').ExtractJwt;
+var User = require('./models/User');
 
 var router = require('./routes/index');
 
@@ -25,6 +28,25 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname)));
 
 app.use('/', router);
+
+var opts = {}
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = 'superdupersecret';
+
+passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
+    User.findOne({id: jwt_payload.sub}, function(err, user) {
+        if (err) {
+            return done(err, false);
+        }
+        if (user) {
+            return done(null, user);
+        } else {
+            return done(null, false);
+            // or you could create a new account
+        }
+    });
+}));
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

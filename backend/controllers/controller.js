@@ -53,3 +53,21 @@ exports.api_comments_get = asyncHandler(async (req, res, next) => {
 //     let comment = await Comment.findOne({_id: req.params.id});
 //     res.json(comment);
 // })
+
+
+
+// Chatgpt generated, check required
+exports.api_login = function(req, res) {
+    User.findOne({username: req.body.username}, function(err, user) {
+        if (err) {
+            return res.status(500).json({error: 'Error logging in'});
+        }
+        if (!user) {
+            return res.status(401).json({error: 'Invalid username or password'});
+        }
+        // Verify password here
+        // If password is valid, generate and send JWT
+        var token = jwt.sign({id: user._id}, 'superdupersecret', {expiresIn: '30m'});
+        res.json({token: token});
+    });
+};

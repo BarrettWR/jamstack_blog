@@ -27,7 +27,7 @@ onMounted(async () => {
 
 
 <template>
-    <div class="flex flex-wrap justify-center grow self-start gap-5 backdrop-brightness-[1.05] p-5 min-h-[80vh]">
+    <div class="flex flex-wrap justify-center self-start gap-5 backdrop-brightness-[1.05] p-5 min-h-[80vh]">
         
         <div class="p-20">
           <h1 class="text-3xl mb-5">{{ post?.title }}</h1>

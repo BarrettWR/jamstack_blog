@@ -31,8 +31,6 @@ async function getComments(url) {
   }
 };
 
-// use a for loop on each comment id to populate the comments data
-// save the data in an array or whatever
 
 </script>
 
@@ -52,6 +50,8 @@ async function getComments(url) {
     </div>
 
 <!-- Implement JWT -->
+<!-- jwt sent from server should be ok, now i need to set up something to be authenticated -->
+<!-- Login form -->
 <!-- Conditional rendering in vue so users can add comments -->
 
 </template>

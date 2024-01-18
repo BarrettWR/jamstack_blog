@@ -6,7 +6,7 @@ import RecentPosts from './RecentPosts.vue';
 
 <template>
     <div class="flex flex-row">
-        <div class="flex flex-col justify-center grow backdrop-brightness-[1.05] p-5 font-nunito">
+        <div class="flex flex-col justify-center backdrop-brightness-[1.05] p-5 font-nunito">
             <img class="flex grow object-cover" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.fifteendesign.co.uk%2Fwp-content%2Fuploads%2F2016%2F10%2FDeveloperChallenges.jpg&f=1&nofb=1&ipt=b601b124d83eabef2d8b6daac0ada9a1fcab62a76951a83e87dbce2653fcd075&ipo=images" alt="">
             <div class="flex flex-col gap-5 bg-saffron bg-opacity-10 p-5 mt-5">
                 <h1 class="ml-0 m-5 text-5xl">What is Pagebreak?</h1>
