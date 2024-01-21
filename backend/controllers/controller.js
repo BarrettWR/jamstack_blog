@@ -4,10 +4,11 @@ const mongoose = require('mongoose')
 const asyncHandler = require("express-async-handler");
 const { check, validationResult } = require('express-validator');
 const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require("bcrypt");
 const Post = require("../models/Post");
 const Comment = require("../models/Comment");
 const User = require("../models/User");
+const jsonwebtoken = require("jsonwebtoken");
 
 exports.api_posts_get = asyncHandler(async (req, res, next) => {
     // let post = new Post({
@@ -55,19 +56,73 @@ exports.api_comments_get = asyncHandler(async (req, res, next) => {
 // })
 
 
+exports.api_login = asyncHandler(async (req, res, next) => {
+    //Do login authentication
+    const user = await User.findOne({username: req.body.username});
+        
+    // async function (err, user) {
+    //     if (err) {
+    //         console.log(err)
+    //         return done(err, false);
+    //     }
+  
+    //     const match = await bcrypt.compare(password, user.password);
+    //     if (!match) {
+    //       return done(null, false, { message: "Incorrect password!"})
+    //     }
+        
+    //     if (user) {
+    //         return done(null, user);
+    //     } else {
+    //         return done(null, false);
+    //     }
+    // });
 
-// Chatgpt generated, check required
-exports.api_login = function(req, res) {
-    User.findOne({username: req.body.username}, function(err, user) {
-        if (err) {
-            return res.status(500).json({error: 'Error logging in'});
-        }
-        if (!user) {
-            return res.status(401).json({error: 'Invalid username or password'});
-        }
-        // Verify password here
-        // If password is valid, generate and send JWT
-        var token = jwt.sign({id: user._id}, 'superdupersecret', {expiresIn: '30m'});
-        res.json({token: token});
-    });
-};
+    console.log(user)
+
+    if (user) {
+        const payload = {
+            sub: user._id,
+            iat: Date.now()
+        };
+        
+        const signedToken = jsonwebtoken.sign(payload, process.env.SECRET, { expiresIn: "1d" });
+
+        res.json({success: true, user: user, token: "Bearer " + signedToken, expiresIn: "1d"})
+    }
+    
+})
+
+exports.api_signup = function(req, res) {
+    try {
+        bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
+            if (err) { 
+            console.log(err)
+            throw new Error
+            };
+
+            const user = new User({
+            username: req.body.username,
+            password: hashedPassword,
+            admin: true
+            })
+
+            await user.save()
+                .then((user) => {
+                    const payload = {
+                        sub: user._id,
+                        iat: Date.now()
+                    };
+
+                    const signedToken = jsonwebtoken.sign(payload, process.env.SECRET, { expiresIn: "1d" });
+
+                    res.json({success: true, user: user, token: "Bearer " + signedToken, expiresIn: "1d"})
+                    
+                })
+                .catch(err => next(err))
+        })
+      }
+      catch (err) {
+        return next(err);
+      }
+}

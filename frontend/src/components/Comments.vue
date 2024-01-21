@@ -1,6 +1,5 @@
 <script setup>
 import { ref, onMounted, defineProps } from 'vue';
-import { useRoute } from 'vue-router';
 
 const postID = defineProps({
   postID: String
