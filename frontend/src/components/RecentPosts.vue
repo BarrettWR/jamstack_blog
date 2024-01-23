@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onBeforeMount, computed } from 'vue';
 
+
 const posts = ref(null);
 
 const getPosts = async (url) => {
@@ -31,6 +32,7 @@ const recentPosts = computed(() => {
 
 
 <template>
+
     <div class="flex flex-col gap-3 max-w-[300px] bg-white p-5 ml-2 rounded-md">
         <span class="text-xl"> Recent Posts</span>
         <div class="" v-for="post in recentPosts">

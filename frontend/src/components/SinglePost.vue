@@ -1,7 +1,9 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import Comments from './Comments.vue' ;
+import Nav from './Nav.vue'
+
 
 const post = ref();
 
@@ -23,10 +25,17 @@ onMounted(async () => {
     post.value = await getPost(`http://localhost:3000/api/post/${id.value}`);
 });
 
+const currentUser = ref();
+const isLoggedIn = computed(() => {
+  currentUser.value = localStorage.getItem('token');
+  return currentUser.value ? true : false;
+});
+
 </script>
 
 
 <template>
+   <Nav :isLoggedIn="isLoggedIn"/>
     <div class="flex flex-wrap justify-center self-start gap-5 backdrop-brightness-[1.05] p-5 min-h-[80vh]">
         
         <div class="p-20">

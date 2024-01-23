@@ -12,6 +12,8 @@ router.get('/api/comments/', controller.api_comments_get);
 
 router.post('/api/login', controller.api_login);
 
+// router.post('/api/logout', controller.api_logout);
+
 router.post('/api/signup', controller.api_signup);
 
 router.get('/api/protec', passport.authenticate('jwt', { session: false }), function(req, res) {

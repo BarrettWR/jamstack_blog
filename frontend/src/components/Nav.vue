@@ -1,12 +1,29 @@
-<script>
+<script setup>
+import { ref } from 'vue';
 
+const isLoggedIn = defineProps({
+  isLoggedIn: Boolean
+});
+
+const user = ref();
+user.value = localStorage.getItem('token');
+
+async function logOut() {
+  try {
+    localStorage.removeItem("token");
+    user.value = null;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
 
 </script>
 
 <template>
   <nav class="top-0 flex flex-row justify-end text-xl p-5 gap-10 w-[50svw] bg-saffron rounded-sm z-10">
     <router-link class="mr-auto" to="/" >Pagebreak</router-link>
-    <router-link to="/login">Login</router-link>
+    <router-link v-if="!isLoggedIn.isLoggedIn" to="/login">Login</router-link>
+    <router-link v-if="isLoggedIn.isLoggedIn" @click="logOut()" to="/">Log out</router-link>
     <router-link to="/posts">Posts</router-link>
 
   </nav>

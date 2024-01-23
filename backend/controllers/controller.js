@@ -57,69 +57,76 @@ exports.api_comments_get = asyncHandler(async (req, res, next) => {
 
 
 exports.api_login = asyncHandler(async (req, res, next) => {
-    //Do login authentication
-    const user = await User.findOne({username: req.body.username});
+    try {
+        const user = await User.findOne({username: req.body.username});
         
-    // async function (err, user) {
-    //     if (err) {
-    //         console.log(err)
-    //         return done(err, false);
-    //     }
-  
-    //     const match = await bcrypt.compare(password, user.password);
-    //     if (!match) {
-    //       return done(null, false, { message: "Incorrect password!"})
-    //     }
-        
-    //     if (user) {
-    //         return done(null, user);
-    //     } else {
-    //         return done(null, false);
-    //     }
-    // });
+        if (!user) {
+            res.json({success: false, user: null, error: "Username not found"})
+        }
 
-    console.log(user)
+        if (user) {
+            const match = await bcrypt.compare(req.body.password, user.password);
 
-    if (user) {
-        const payload = {
-            sub: user._id,
-            iat: Date.now()
-        };
-        
-        const signedToken = jsonwebtoken.sign(payload, process.env.SECRET, { expiresIn: "1d" });
-
-        res.json({success: true, user: user, token: "Bearer " + signedToken, expiresIn: "1d"})
+            if (!match) {
+                res.json({success: false, user: null, error: "Incorrect Passsword"})  
+            }
+            else {
+                const payload = {
+                    sub: user._id,
+                    iat: Date.now()
+                };
+                
+                const signedToken = jsonwebtoken.sign(payload, process.env.SECRET, { expiresIn: "1d" });
+                res.json({success: true, user: user, message: "Log in successful. Welcome ", token: "Bearer " + signedToken, expiresIn: "1d"})
+            }
+        }
     }
-    
+    catch (err) {
+        if (err) {
+            console.log(err)
+            return next(err)
+        }
+    }
 })
+
+
+
+// exports.api_logout = asyncHandler(async (req, res, next) => {
+//     try {
+//         res.clearCookie('token');
+//         res.json({success: true})
+//     }
+//     catch (err) {
+//         if (err) {
+//             console.log(err)
+//             return next(err)
+//         }
+//     }
+// })
+
 
 exports.api_signup = function(req, res) {
     try {
         bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
             if (err) { 
-            console.log(err)
-            throw new Error
-            };
+                res.json({success: false, user: null, error: "Error creating user. Please try again"})
+            }
+            else if (req.body.username.length > 40 || req.body.password.length > 40) {
+                res.json({success: false, user: null, error: "Username must be under 40 characters"})
 
-            const user = new User({
-            username: req.body.username,
-            password: hashedPassword,
-            admin: true
-            })
-
-            await user.save()
-                .then((user) => {
-                    const payload = {
-                        sub: user._id,
-                        iat: Date.now()
-                    };
-
-                    const signedToken = jsonwebtoken.sign(payload, process.env.SECRET, { expiresIn: "1d" });
-
-                    res.json({success: true, user: user, token: "Bearer " + signedToken, expiresIn: "1d"})
-                    
+            }
+            else {
+                const user = new User({
+                    username: req.body.username,
+                    password: hashedPassword,
+                    admin: false
                 })
-                .catch(err => next(err))
+    
+                await user.save()
+    
+                res.json({message: "User successfully created. Try logging in!"})
+            }
+
         })
       }
       catch (err) {

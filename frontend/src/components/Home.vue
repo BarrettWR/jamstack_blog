@@ -1,10 +1,18 @@
 <script setup>
+import { computed, ref } from 'vue';
 import RecentPosts from './RecentPosts.vue';
+import Nav from './Nav.vue'
 
+const currentUser = ref();
+const isLoggedIn = computed(() => {
+  currentUser.value = localStorage.getItem('token');
+  return currentUser.value ? true : false;
+});
 
 </script>
 
 <template>
+    <Nav :isLoggedIn="isLoggedIn"/>
     <div class="flex flex-row">
         <div class="flex flex-col justify-center backdrop-brightness-[1.05] p-5 font-nunito">
             <img class="flex grow object-cover" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.fifteendesign.co.uk%2Fwp-content%2Fuploads%2F2016%2F10%2FDeveloperChallenges.jpg&f=1&nofb=1&ipt=b601b124d83eabef2d8b6daac0ada9a1fcab62a76951a83e87dbce2653fcd075&ipo=images" alt="">

@@ -1,10 +1,11 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue';
+import Nav from './Nav.vue'
+
 
 const protec = ref(null);
 
 const getProtec = async (url) => {
-    console.log("protec " + localStorage.token)
   try {
     const response = await fetch(url, {
         mode: 'cors',
@@ -29,6 +30,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
+  <Nav/>
     <div class="p-10">
         {{ protec?.protec }}
     </div>
