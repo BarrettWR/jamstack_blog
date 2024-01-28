@@ -57,8 +57,6 @@ const isLoggedIn = computed(() => {
   return currentUser.value ? true : false;
 });
 
-console.log(isLoggedIn.value)
-
 </script>
 
 <template>
@@ -69,7 +67,7 @@ console.log(isLoggedIn.value)
                 <span class="mr-auto ml-auto text-3xl">Log in Form</span>
                 <span class="flex mt-2 mb-2 bg-red-400 p-4 rounded-md" v-if="errorMessage">{{ errorMessage }}</span>
                 <input v-model="username" class=" p-4 mt-auto flex rounded-md border-black border-[1px]" type="text" placeholder="Username" name="username" id="username">
-                <input v-model="password" class=" p-4 flex rounded-md border-black border-[1px]" type="text" placeholder="Password" name="password" id="password">
+                <input v-model="password" class=" p-4 flex rounded-md border-black border-[1px]" type="password" placeholder="Password" name="password" id="password">
                 <input class=" p-4 mb-auto mt-2 rounded-md bg-saffron hover:bg-yellow-400 cursor-pointer" type="submit" value="Log In">
                 <span class="text-lg">
                     Need an account? 

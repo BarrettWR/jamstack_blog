@@ -68,8 +68,8 @@ const isLoggedIn = computed(() => {
                 <span class="mr-auto ml-auto text-3xl">Sign Up Form</span>
                 <span class="flex mt-2 mb-2 bg-red-400 p-4 rounded-md" v-if="errorMessage">{{ errorMessage }}</span>
                 <input v-model="username" class=" p-4 mt-auto flex rounded-md border-black border-[1px]" type="text" placeholder="Username" name="username" id="username">
-                <input v-model="password" class=" p-4 flex rounded-md border-black border-[1px]  shadow-sharp-sm" type="text" placeholder="Password" name="password" id="password">
-                <input v-model="confirmPassword" class=" p-4 flex rounded-md border-black border-[1px] shadow-sharp-sm" type="text" placeholder="Confirm Password" name="confirmPassword" id="confirmPassword">
+                <input v-model="password" class=" p-4 flex rounded-md border-black border-[1px]  shadow-sharp-sm" type="password" placeholder="Password" name="password" id="password">
+                <input v-model="confirmPassword" class=" p-4 flex rounded-md border-black border-[1px] shadow-sharp-sm" type="password" placeholder="Confirm Password" name="confirmPassword" id="confirmPassword">
                 <input class=" p-4 mb-auto mt-2 rounded-md bg-saffron hover:bg-yellow-400 cursor-pointer" type="submit" value="Sign up">
                 <span class="text-lg">
                     Have an account? 

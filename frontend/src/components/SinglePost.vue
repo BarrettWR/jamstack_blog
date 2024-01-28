@@ -36,11 +36,11 @@ const isLoggedIn = computed(() => {
 
 <template>
    <Nav :isLoggedIn="isLoggedIn"/>
-    <div class="flex flex-wrap justify-center self-start gap-5 backdrop-brightness-[1.05] p-5 min-h-[80vh]">
+    <div class="flex flex-col w-[100%] justify-center self-start gap-5 backdrop-brightness-[1.05] p-5 min-h-[80vh]">
         
-        <div class="p-20">
+        <div class="p-20 min-h-[50vh]">
           <h1 class="text-3xl mb-5">{{ post?.title }}</h1>
-          <p class="text-xl leading-relaxed">
+          <p class="text-lg leading-relaxed whitespace-pre-wrap">
             {{ post?.text }}
           </p> 
         </div>

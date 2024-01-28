@@ -16,6 +16,7 @@ const getPosts = async (url) => {
 
 onBeforeMount(async () => {
   posts.value = await getPosts('http://localhost:3000/api/posts');
+  posts.value.reverse()
 });
 
 const recentPosts = computed(() => {

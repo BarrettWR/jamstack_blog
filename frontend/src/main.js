@@ -6,7 +6,7 @@ import Home from './components/Home.vue'
 import SinglePost from './components/SinglePost.vue'
 import Login from './components/Login.vue'
 import SignUp from './components/SignUp.vue'
-import Protec from './components/Protec.vue'
+import SubmitPost from './components/SubmitPost.vue'
 
 import { createRouter, createWebHashHistory } from 'vue-router'
 
@@ -17,7 +17,7 @@ const routes = [
     { path: '/post/:id', component: SinglePost },
     { path: '/login', component: Login },
     { path: '/signup', component: SignUp },
-    { path: '/protec', component: Protec }
+    { path: '/postsubmit', component: SubmitPost }
 ]
 
 const router = createRouter({

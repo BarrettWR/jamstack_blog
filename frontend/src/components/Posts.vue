@@ -4,6 +4,7 @@ import Nav from './Nav.vue'
 
 
 const posts = ref(null);
+const isAdmin = ref()
 
 const getPosts = async (url) => {
   try {
@@ -17,6 +18,7 @@ const getPosts = async (url) => {
 
 onBeforeMount(async () => {
   posts.value = await getPosts('http://localhost:3000/api/posts');
+  posts.value.reverse()
 });
 
 const currentUser = ref();
@@ -26,40 +28,33 @@ const isLoggedIn = computed(() => {
   return currentUser.value ? true : false;
 });
 
+
 </script>
 
 
 <template>
   <Nav :isLoggedIn="isLoggedIn"/>
     <div class="flex flex-wrap self-start backdrop-brightness-[1.05] p-5 min-h-[80vh]">
-      <div class="flex flex-wrap gap-5 h-min">
-        <div class="flex flex-col p-5 rounded-md cursor-pointer box shadow xl:max-w-[48.3%]" v-for="post in posts">
-          <router-link :to="`/post/${post._id}`">
-            <div class="textbox">
-                <div class="flex flex-row items-center gap-5">
-                    <h1 class="text-2xl mb-1 text-nowrap">{{ post?.title }}</h1>
-                    <small class="opacity-80 overflow-hidden max-h-[25px]"> {{  new Date(post.time).toLocaleDateString('en-us', { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' })  }} </small>
-                </div>
-                <p class=" overflow-hidden max-h-[115px]">{{ post?.text }}</p>
-            </div>
-          </router-link>
-        </div>
+      <div class="flex flex-wrap gap-5">
+        <router-link :to="`/post/${post._id}`" class="flex flex-col rounded-md cursor-pointer box shadow xl:max-w-[46.2%] h-fit box-content" v-for="post in posts">
+          <div class="overflow-hidden h-fit">
+              <div class="flex flex-col items-start">
+                  <h1 class="text-2xl ">{{ post?.title }}</h1>
+                  <small class="opacity-80 text-xs mb-1 overflow-hidden max-h-[25px]"> {{  new Date(post.time).toLocaleDateString('en-us', { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' })  }} </small>
+              </div>
+              <p class="leading-relaxed overflow-hidden max-h-[80px]">{{ post?.text }}</p>
+          </div>
+        </router-link>
       </div>
     </div>
 </template>
 
 <style>
 
-.textbox {
-  /* max-height: 150px; */
-  overflow: hidden;
-  text-overflow: clip;
-  line-height: 1.7;
-}
+
 
 .box {
   min-width: 250px;
-  max-height: 160px;
   display: block;
   position: relative;
   border-radius: 5px;

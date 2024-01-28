@@ -12,18 +12,17 @@ router.get('/api/comments/', controller.api_comments_get);
 
 router.post('/api/login', controller.api_login);
 
-// router.post('/api/logout', controller.api_logout);
-
 router.post('/api/signup', controller.api_signup);
 
 router.get('/api/protec', passport.authenticate('jwt', { session: false }), function(req, res) {
     res.json({protec: "yes"})
 } )
 
-// , passport.authenticate('jwt', { session: false })
+router.post('/api/commentsubmit', passport.authenticate('jwt', { session: false }), controller.api_commentSubmit);
 
-// router.get('/api/comments/:id', controller.api_singleComment_get);
+router.get('/api/postsubmit', passport.authenticate('jwt', { session: false }), controller.api_postsubmit_get)
 
+router.post('/api/postsubmit', passport.authenticate('jwt', { session: false }), controller.api_postsubmit_post)
 
 
 

@@ -11,50 +11,21 @@ const User = require("../models/User");
 const jsonwebtoken = require("jsonwebtoken");
 
 exports.api_posts_get = asyncHandler(async (req, res, next) => {
-    // let post = new Post({
-    //     author: "jimbob",
-    //     title: "Hello World",
-    //     text: "lorem ipsum dolor sit amet",
-    //     time: new Date(),
-    //     published: true,
-    //     comments: [
-    //         "65977dfb3043fbf98b0ef712",
-    //         "659779fd85e0eb6e0b951b7f"
-    //     ]
-    // })
-
-    // post.save();
-
     let posts = await Post.find();
     res.json(posts);
 })
 
 exports.api_singlePost_get = asyncHandler(async (req, res, next) => {
+
+
     let post = await Post.findOne({_id: req.params.id});
     res.json(post);
 })
 
 exports.api_comments_get = asyncHandler(async (req, res, next) => {
-    //     let comment= new Comment({
-    //         username: "Greg",
-    //         message: "lorem ipsum dolor sit amet",
-    //         time: new Date(),
-    //         postID: '659779fd85e0eb6e0b951b7f'
-    //     })
-
-    // comment.save();
-
-
     let comments = await Comment.find();
     res.json(comments);
 })
-
-
-// exports.api_singleComment_get = asyncHandler(async (req, res, next) => {
-//     let comment = await Comment.findOne({_id: req.params.id});
-//     res.json(comment);
-// })
-
 
 exports.api_login = asyncHandler(async (req, res, next) => {
     try {
@@ -73,6 +44,7 @@ exports.api_login = asyncHandler(async (req, res, next) => {
             else {
                 const payload = {
                     sub: user._id,
+                    username: user.username,
                     iat: Date.now()
                 };
                 
@@ -88,22 +60,6 @@ exports.api_login = asyncHandler(async (req, res, next) => {
         }
     }
 })
-
-
-
-// exports.api_logout = asyncHandler(async (req, res, next) => {
-//     try {
-//         res.clearCookie('token');
-//         res.json({success: true})
-//     }
-//     catch (err) {
-//         if (err) {
-//             console.log(err)
-//             return next(err)
-//         }
-//     }
-// })
-
 
 exports.api_signup = function(req, res) {
     try {
@@ -133,3 +89,93 @@ exports.api_signup = function(req, res) {
         return next(err);
       }
 }
+
+exports.api_commentSubmit = asyncHandler(async (req, res, next) => {
+    try {
+        if (req.body.comment.length < 1) {
+            // console.log("incorrect length")
+            res.json({success: false, message: "Comment must be at least one character in length"})
+        }
+        else if (req.body.comment.length > 500) {
+            // console.log("incorrect length")
+            res.json({success: false, message: "Comment must be less than 500 characters in length"})
+        }
+        else {
+            const split = req.body.jwt._value.split(" ");
+            const jwt = split[1];
+            const decoded = await jsonwebtoken.decode(jwt);
+            
+            const comment = new Comment({
+                username: decoded.username,
+                message: req.body.comment,
+                time: new Date(),
+                postID: req.body.postID
+            })
+
+            await comment.save()
+
+            res.json({success: true, message:""})
+        }
+    }
+    catch (err) {
+        console.log(err)
+        return next(err);
+    }
+})
+
+exports.api_postsubmit_get = asyncHandler(async (req, res, next) => {
+    try {
+        const split = req.headers.authorization.split(" ");
+        const jwt = split[1];
+        const decoded = await jsonwebtoken.decode(jwt);
+
+        const user = await User.findOne({_id: decoded.sub});
+        
+
+        if (!user.admin) {
+            console.log("not admin");
+            res.json({ success: false })
+        }
+        else {
+            res.json({ success: true })
+        }
+    }
+    catch (err) {
+        console.log(err)
+        return next(err);
+    }
+})
+
+exports.api_postsubmit_post = asyncHandler(async (req, res, next) => {
+    try {
+        const split = req.headers.authorization.split(" ");
+        const jwt = split[1];
+        const decoded = await jsonwebtoken.decode(jwt);
+
+        const user = await User.findOne({_id: decoded.sub});
+        
+
+        if (!user.admin) {
+            console.log("not admin");
+            res.json({ success: false })
+        }
+        else {
+            const post = new Post({
+                author: user.username,
+                title: req.body.blogTitle,
+                text: req.body.blogPost,
+                time: new Date,
+                published: true,
+                comments: []
+            })
+
+            await post.save()
+            
+            res.json({ success: true })
+        }
+    }
+    catch (err) {
+        console.log(err)
+        return next(err);
+    }
+})
